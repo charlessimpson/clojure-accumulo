@@ -1,9 +1,6 @@
 # clojure-accumulo
 
-A Clojure binding for [Apache Accumulo](http://accumulo.apache.org), "a sorted,
-distributed key/value store... built on Apache
-[Hadoop](http://hadoop.apache.org), [ZooKeeper](http://zookeeper.apache.org),
-and [Thrift](http://thrift.apache.org)."
+A Clojure binding for [Apache Accumulo](http://accumulo.apache.org).
 
 ## Basic Usage
 
@@ -38,3 +35,9 @@ in 0.1, but will break the API.  In particular,
     `BatchWriter`
   * provide an abstractions for `Range`, `Key`, and `Mutation` so they don't
     have to be explicitly constructed
+
+## Related
+
+Want to run Clojure tablet-server-side in Accumulo by passing Clojure 
+into scan iterators as iterator options?  See 
+[clojure-accumulo-iterators](http://github.com/charlessimpson/clojure-accumulo-iterators).
