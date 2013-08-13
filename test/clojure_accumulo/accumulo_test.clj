@@ -4,12 +4,12 @@
 
 (deftest connector-binding
   (with-connector
-    {:mock? true}
+    {:user "user" :password "password" :mock? true}
     (is (instance? org.apache.accumulo.core.client.Connector *conn*))))
 
 (deftest table-operations
   (with-connector
-    {:mock? true}
+    {:user "user" :password "password" :mock? true}
 
     (is (table? "!METADATA"))
     (is (not (table? "non-existent")))

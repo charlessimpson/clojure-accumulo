@@ -5,7 +5,7 @@ A Clojure binding for [Apache Accumulo](http://accumulo.apache.org).
 ## Basic Usage
 
 ```clj
-(def db {:mock? true})
+(def db {:user "user" :password "password" :mock? true})
 (def auths "A,B,C")
 
 (with-connector db
