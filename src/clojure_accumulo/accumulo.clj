@@ -151,11 +151,18 @@
       (add-iterator s))))
 
 (defn- limit-column-families
-  "Limit the column families that a scanner returns.  column-familiies is a 
+  "Limit the column families that a scanner returns.  column-families is a
   sequence of Strings."
   [^ScannerBase s column-families]
   (doseq [cf column-families]
     (.fetchColumnFamily s (Text. cf))))
+
+(defn- limit-columns
+  "Limit the columns that the scanner returns.  columns is a sequence of
+  (family, qualifier) pairs, each of which is a string."
+  [^ScannerBase s columns]
+  (doseq [[cf cq] columns]
+    (.fetchColumn s (Text. cf) (Text. cq))))
 
 (defn scan
   "Scan a table over one or more ranges.  Ranges should be a collection of
@@ -165,12 +172,15 @@
     :batch?           if true, a BatchScanner is used
     :column-families  a sequence of column families (Strings) to limit the scan
                       by
+    :columns          a sequence of two element (column family, column
+                      qualifier pairs) to limit the scan by
     :iterators        a sequence of scan iterators.  See add-iterators.
   "
-  [table ranges & {:keys [batch? column-families iterators]}]
+  [table ranges & {:keys [batch? column-families columns iterators]}]
   (let [scanner (doto ((if batch? create-batch-scanner create-scanner) table)
                   (add-iterators iterators)
-                  (limit-column-families column-families))]
+                  (limit-column-families column-families)
+                  (limit-columns columns))]
     (if batch?
       (seq (doto scanner (.setRanges ranges)))
       (mapcat (fn [r]
