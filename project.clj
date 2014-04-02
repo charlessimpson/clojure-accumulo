@@ -1,22 +1,22 @@
 (defproject clojure-accumulo/clojure-accumulo "0.1.0-SNAPSHOT"
   :description "Clojure bindings for Apache Accumulo"
   :dependencies [[org.clojure/clojure "1.3.0"]
-                 [org.apache.hadoop/hadoop-core "0.20.2"
-                  :exclusions [ant/ant
-                               junit/junit
-                               org.mortbay.jetty/jetty
-                               org.mortbay.jetty/jetty-util
-                               org.mortbay.jetty/jsp-2.1
-                               org.mortbay.jetty/jsp-api-2.1
-                               org.mortbay.jetty/servlet-api-2.5
-                               tomcat/jasper-compiler
-                               tomcat/jasper-runtime]]
-                 [org.apache.zookeeper/zookeeper "3.3.3"
+                 [org.apache.hadoop/hadoop-client "1.2.1"
+                   :exclusions [ant
+                                hsqldb
+                                junit
+                                org.mortbay.jetty
+                                org.codehaus.jackson/jackson-core-asl
+                                tomcat]]
+                 [org.apache.zookeeper/zookeeper "3.3.6"
                    :exclusions [com.sun.jmx/jmxri
                                 com.sun.jdmk/jmxtools
+                                log4j
                                 javax.jms/jms
                                 jline/jline]]
-                 [org.apache.accumulo/accumulo-core "1.3.6"
-                  :exclusions [jline/jline
-                               junit/junit]]
+                 [org.apache.accumulo/accumulo-core "1.5.1"
+                   :exclusions [jline
+                                junit
+                                org.apache.httpcomponents/httpcore]]
+                 [org.slf4j/slf4j-log4j12 "1.7.6"]
                  ])
