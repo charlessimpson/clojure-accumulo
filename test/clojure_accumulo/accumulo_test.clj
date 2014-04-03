@@ -59,3 +59,25 @@
              [{:row "r_c" :cf "cf_1" :cq "cq_b" :vis ""}]))
 
     )))
+
+(deftest test-iterators
+  (with-connector db
+    (create-table "demo")
+    (write "demo"
+      [(doto (org.apache.accumulo.core.data.Mutation. "r_a")
+         (.put "cf_1" "cq_b" (as-visibility "") ""))
+       (doto (org.apache.accumulo.core.data.Mutation. "r_b")
+         (.put "cf_1" "cq_a" (as-visibility "") "")
+         (.put "cf_1" "cq_c" (as-visibility "") "")
+         (.put "cf_2" "cq_c" (as-visibility "") ""))
+       (doto (org.apache.accumulo.core.data.Mutation. "r_c")
+         (.put "cf_1" "cq_b" (as-visibility "") "")
+         (.put "cf_2" "cq_b" (as-visibility "") ""))
+       ])
+    (letfn [(xkeys [entries] (map (comp as-unversioned-key key) entries))]
+      (is (= (xkeys (scan "demo" [(org.apache.accumulo.core.data.Range.)]
+                      :iterators [{:class org.apache.accumulo.core.iterators.user.GrepIterator
+                                   :priority 10
+                                   :name "grep"
+                                   :term "cq_c"}]))
+            [{:row "r_b" :cf "cf_1" :cq "cq_c" :vis ""} {:row "r_b" :cf "cf_2" :cq "cq_c" :vis ""}])))))
