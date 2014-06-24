@@ -1,4 +1,4 @@
-(defproject clojure-accumulo/clojure-accumulo "0.1.0-SNAPSHOT"
+(defproject clojure-accumulo/clojure-accumulo "0.1.0"
   :description "Clojure bindings for Apache Accumulo"
   :url "https://github.com/charlessimpson/clojure-accumulo"
   :license {:name "The MIT License"
