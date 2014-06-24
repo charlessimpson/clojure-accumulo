@@ -1,5 +1,8 @@
 (defproject clojure-accumulo/clojure-accumulo "0.1.0-SNAPSHOT"
   :description "Clojure bindings for Apache Accumulo"
+  :url "https://github.com/charlessimpson/clojure-accumulo"
+  :license {:name "The MIT License"
+            :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [org.apache.hadoop/hadoop-core "0.20.2"
                   :exclusions [ant/ant

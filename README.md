@@ -41,3 +41,9 @@ in 0.1, but will break the API.  In particular,
 Want to run Clojure tablet-server-side in Accumulo by passing Clojure 
 into scan iterators as iterator options?  See 
 [clojure-accumulo-iterators](http://github.com/charlessimpson/clojure-accumulo-iterators).
+
+## License
+
+Copyright 2011-2014 Charles Simpson
+
+Release under the MIT license.
