@@ -1,6 +1,6 @@
 (ns clojure-accumulo.accumulo
   "Basic operations in Accumulo"
-  (:import [org.apache.accumulo.core.client ScannerBase ZooKeeperInstance]
+  (:import [org.apache.accumulo.core.client ScannerBase ZooKeeperInstance IteratorSetting]
            [org.apache.accumulo.core.client.mock MockInstance]
            [org.apache.accumulo.core.security Authorizations ColumnVisibility]
            [org.apache.hadoop.io Text]))
@@ -133,10 +133,11 @@
   scan iterator.
   "
   [^ScannerBase s iter]
-  (let [{:keys [priority class name]} iter]
-    (.setScanIterators s priority class name)
-    (for [[k v] (dissoc iter :priority :class :name)]
-      (.setIteratorOption name (str k) (str v)))))
+  (let [{priority :priority class :class iname :name} iter
+        iter-setting (IteratorSetting. priority iname class)]
+    (doseq [[k v] (dissoc iter :priority :class :name)]
+      (.addOption iter-setting (name k) (str v)))
+    (.addScanIterator s iter-setting)))
 
 (defn add-iterators
   "Apply a sequence of iterators to a scanner.  Each entry in the sequence must
@@ -145,10 +146,8 @@
   from the iterator's index in the sequence.
   "
   [^ScannerBase s iters]
-  (for [iter iters ind (range)]
-    (let [{:keys [class name priority]
-           :or {name (gensym class) priority ind}} iter]
-      (add-iterator s))))
+  (doseq [iter iters]
+    (add-iterator s iter)))
 
 (defn- limit-column-families
   "Limit the column families that a scanner returns.  column-families is a
